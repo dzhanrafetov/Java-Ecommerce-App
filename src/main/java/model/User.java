@@ -1,25 +1,40 @@
 package model;
 
+import dto.AdvertisementDto;
+import dto.UserDetailsDto;
 import enums.UserRole;
 
-import java.util.Enumeration;
+import java.util.List;
 
 public class User extends BaseEntity {
     private final String username;
     private final String password;
     private final UserRole role;
+    private UserDetails userDetails;
+    private List<AdvertisementDto> advertisements;
 
-    private final UserDetails userDetails;
 
+    public User(String username, String password, UserRole role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
 
-    public User(long id, String username, String password, UserRole role, UserDetails userDetails) {
+    public User(long id, String username, String password, UserRole role) {
+        super(id);
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User(long id, String username, String password, UserRole role, UserDetails userDetails, List<AdvertisementDto> advertisements) {
         super(id);
         this.username = username;
         this.password = password;
         this.role = role;
         this.userDetails = userDetails;
+        this.advertisements = advertisements;
     }
-
 
     public String getUsername() {
         return this.username;
@@ -33,18 +48,20 @@ public class User extends BaseEntity {
         return this.role;
     }
 
-    public UserDetails userDetails() {
-        return this.userDetails;
+    public UserDetails getUserDetails() {
+        return userDetails;
+    }
+
+    public List<AdvertisementDto> getAdvertisements() {
+        return advertisements;
     }
 
     @Override
     public String toString() {
         return "\n" + "User" + "\n" +
-                "id = " + super.getId() + " \n" +
-
+                "id = '" + super.getId() + "' \n" +
                 "username = '" + username + "' \n" +
                 "password = '" + password + "' \n" +
-                "role = '" + role + "'\n" +
-                "\n" + userDetails + " \n";
+                "role = '" + role + "'\n";
     }
 }

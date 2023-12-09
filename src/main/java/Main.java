@@ -1,53 +1,62 @@
-import enums.PhoneType;
-import enums.UserRole;
-import model.*;
-import util.AdminMenu;
-import util.Menu;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import dao.AdvertisementDao;
+import dao.CategoryDao;
+import dao.UserDao;
+import dao.UserDetailsDao;
+import dto.converters.AdvertisementDtoConverter;
+import service.AdvertisementService;
+import service.CategoryService;
+import service.UserDetailsService;
+import service.UserService;
+import ui.*;
 
 public class Main {
+
+
     public static void main(String[] args) {
 
-
-        Category category = new Category(1, null, null, "Category Name", "Category Description");
-        Advertisement advertisement = new Advertisement(1, null,
-                null, "Title", "Desc", new BigDecimal("3.5"), true, category);
-        System.out.println(advertisement);
+        UserDetailsDao userDetailsDao = new UserDetailsDao();
+        UserDao userDao = new UserDao();
 
 
-//        PhoneNumber phoneNumber = new PhoneNumber(1, "+359", "123456789", PhoneType.MOBILE);
-//
-//        Address address = new Address(1, "123 Street", "City", "State", "Country", "12345");
-//
-//        List<Address> addresses = new ArrayList<>();
-//        addresses.add(address);
-//        addresses.add(address);
-//        UserDetails userDetails = new UserDetails(1,
-//                null,
-//                null,
-//                "Dzhan",
-//                "Rafetov",
-//                phoneNumber, addresses);
-//
-//        User user = new User(1,
-//                "dzhan_rafetov",
-//                "password",
-//                UserRole.USER_ROLE,
-//                userDetails);
-//
-//        System.out.println(user);
+        CategoryDao categoryDao = new CategoryDao();
+        CategoryService categoryService = new CategoryService(categoryDao);
 
-//
-//        Menu adminMenu=new AdminMenu();
+        AdvertisementDao advertisementDao = new AdvertisementDao();
+        AdvertisementDtoConverter advertisementDtoConverter = new AdvertisementDtoConverter();
+        AdvertisementService advertisementService = new AdvertisementService(advertisementDao, categoryService, advertisementDtoConverter);
+        UserDetailsService userDetailsService = new UserDetailsService(userDetailsDao);
+        UserService userService = new UserService(userDao, userDetailsService, advertisementService);
+        Menu menu = new StartMenu(userService, advertisementService, categoryService);
+        menu.displayMenu();
+
+
+//        Menu startMenu=new StartMenu(userService);
 //        Scanner scan=new Scanner(System.in);
-//        adminMenu.displayMenu();
-//        int choice =  adminMenu.getUserChoice(scan);
-//        adminMenu.performAction(choice);
+//        startMenu.displayMenu();
+//        int choice =  startMenu.getUserChoice(scan);
+//        startMenu.performAction(choice);
+
+
+        //USER
+//        UserDetailsDao userDetailsDao = new UserDetailsDao();
+//        UserDao userDao = new UserDao();
+//
+//        // Instantiate services
+//        UserDetailsService userDetailsService = new UserDetailsService(userDetailsDao);
+//        UserService userService = new UserService(userDao, userDetailsService);
+        //userService.createUser();
+        // Create user and associated user details
+//        userService.authenticateUser("shmekera", PasswordUtil.hashPassword("shmekera"));
+//
+//
+//        System.out.println("this is id" + SessionManagerUtil.getAuthenticatedUserId());
+//        System.out.println(PasswordUtil.hashPassword("dzhan"));
+
+
+//USERDETAILS
+
+
+//CATEGORY
 
 
     }
