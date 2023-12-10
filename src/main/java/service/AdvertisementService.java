@@ -68,7 +68,6 @@ public class AdvertisementService {
     }
 
 
-
     //----------------CREATE METHODS----END------------------------
 
 
@@ -76,7 +75,7 @@ public class AdvertisementService {
 
     public void getActiveAdvertisements() {
         List<AdvertisementDto> advertisements = advertisementDtoConverter.convert(advertisementDao.getActiveAdvertisements());
-        if(advertisements.isEmpty()){
+        if (advertisements.isEmpty()) {
             throw new NoAvailableException("No available  advertisements ");
 
         }
@@ -85,7 +84,7 @@ public class AdvertisementService {
 
     public void getAdvertisements() {
         List<AdvertisementDto> advertisements = advertisementDtoConverter.convert(advertisementDao.getAllAdvertisements());
-        if(advertisements.isEmpty()){
+        if (advertisements.isEmpty()) {
             throw new NoAvailableException("No available  advertisements ");
 
         }
@@ -94,7 +93,7 @@ public class AdvertisementService {
 
     public void getUserAdvertisements() {
         List<AdvertisementDto> advertisements = advertisementDtoConverter.convert(advertisementDao.getUserAdvertisements(SessionManagerUtil.getAuthenticatedUserId()));
-        if(advertisements.isEmpty()){
+        if (advertisements.isEmpty()) {
             throw new NoAvailableException("No available  advertisements ");
 
         }
@@ -108,7 +107,7 @@ public class AdvertisementService {
         if (advertisement == null) {
             throw new NotFoundException("Advertisement not found with ID: " + advertisementId);
         }
-
+        System.out.println(advertisement);
         return advertisementDtoConverter.convert(advertisement);
     }
 
@@ -120,25 +119,29 @@ public class AdvertisementService {
     public void deleteUserAdvertisement() {
         List<AdvertisementDto> advertisements = advertisementDtoConverter.convert(advertisementDao.getUserAdvertisements(SessionManagerUtil.getAuthenticatedUserId()));
 
-      if(advertisements.isEmpty()){
-          throw new NoAvailableException("No available advertisements to choose from");
+        if (advertisements.isEmpty()) {
+            throw new NoAvailableException("No available advertisements to choose from");
 
-      }
+        }
         System.out.println(advertisements);
         long advertisement_id = ScannerUtil.readLong("Enter Advertisement id to delete: ");
-        Advertisement advertisement = advertisementDao.deleteUserAdvertisement(advertisement_id);
+
+        Advertisement advertisement=advertisementDao.getAdvertisementById(advertisement_id);
+
         if (advertisement == null) {
             throw new NotFoundException("Advertisement not found with  ID: " + advertisement_id);
 
         }
+         advertisementDao.deleteUserAdvertisement(advertisement_id);
+
     }
 
     public void deleteAdvertisementById() {
         List<AdvertisementDto> advertisements = advertisementDtoConverter.convert(advertisementDao.getAllAdvertisements());
-       if(advertisements.isEmpty()){
-           throw new NoAvailableException("No available advertisements to choose from.");
+        if (advertisements.isEmpty()) {
+            throw new NoAvailableException("No available advertisements to choose from.");
 
-       }
+        }
 
         System.out.println(advertisements);
         long advertisement_id = ScannerUtil.readLong("Enter Advertisement id to delete: ");
@@ -153,12 +156,12 @@ public class AdvertisementService {
 
     public void deleteAdvertisementByUserId(long user_id) {
 
-        Advertisement advertisement = advertisementDao.deleteAdvertisementByUserId(user_id);
-        if (advertisement == null) {
-            throw new NotFoundException("Advertisement not found with  user ID: " + user_id);
+        advertisementDao.deleteAdvertisementByUserId(user_id);
 
-        }
-    }
+
+
+}
+
 
 
     public void deleteAdvertisementByCategoryId() {

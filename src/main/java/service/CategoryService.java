@@ -37,10 +37,10 @@ public class CategoryService {
     //----------------GET METHODS----START------------------------
 
     public List<Category> getCategories() {
-       if(categoryDao.getCategories().isEmpty()){
-           throw new NoAvailableException("No available categories ");
+        if (categoryDao.getCategories().isEmpty()) {
+            throw new NoAvailableException("No available categories ");
 
-       }
+        }
         return categoryDao.getCategories();
     }
 
@@ -51,11 +51,11 @@ public class CategoryService {
     //----------------DELETE METHODS----START------------------------
 
     public void deleteCategory(long categoryId) {
-      Category category=  categoryDao.deleteCategory(categoryId);
-      if(category == null){
-          throw new NotFoundException("Category not found with  user ID: " + categoryId);
+        Category category = categoryDao.deleteCategory(categoryId);
+        if (category == null) {
+            throw new NotFoundException("Category not found with  user ID: " + categoryId);
 
-      }
+        }
     }
 
     //----------------DELETE METHODS----END------------------------
@@ -87,9 +87,11 @@ public class CategoryService {
                 return true;
             }
         }
-        throw new NotFoundException("Category not found with ID: " + categoryId);
+
+        return false;
     }
+}
 
     //----------------OTHER METHODS----END------------------------
 
-}
+

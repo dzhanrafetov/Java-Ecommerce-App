@@ -101,12 +101,16 @@ public class UserService {
     public void deleteUser() {
         getUsers();
         long userId = ScannerUtil.readLong("Enter user id to delete");
-        advertisementService.deleteAdvertisementByUserId(userId);
-        User user = userDao.deleteUserAndUserDetails(userId);
+
+
+        User user = userDao.getUserById(userId);
         if (user == null) {
             throw new NotFoundException("User not found with id: " + userId);
-
         }
+
+        advertisementService.deleteAdvertisementByUserId(userId);
+         userDao.deleteUserAndUserDetails(userId);
+
     }
     //----------------DELETE METHODS----END------------------------
 

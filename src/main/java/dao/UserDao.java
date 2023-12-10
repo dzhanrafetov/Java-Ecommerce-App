@@ -71,6 +71,30 @@ public class UserDao {
     }
 
 
+    public User getUserById(long id) {
+        String sql = "SELECT * FROM user WHERE id = ?;";
+        User user = null;
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setLong(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                user = new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        UserRole.valueOf(resultSet.getString("role")));
+            }
+            return user;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public List<UserDto> getUsers() {
         String sql = "SELECT user.id,username,password,role,firstname,lastname,street_address,city,country,postal_code,phone_number,userID FROM melifera_db.user  JOIN  userDetails on user.id = userDetails.userID";
         List<UserDto> userList = new ArrayList<>();
@@ -153,12 +177,15 @@ public class UserDao {
     //----------------DELETE METHODS----START------------------------
 
     public User deleteUserAndUserDetails(long user_id) {
-        deleteUser(user_id);
 
         deleteUserDetails(user_id);
 
+        deleteUser(user_id);
+
+
         return null;
     }
+
     //------PRIVATE COMMON METHODS---START----
 
     private void deleteUser(long user_id) {
