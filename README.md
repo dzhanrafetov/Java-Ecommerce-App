@@ -1,5 +1,3 @@
-# Technical-Assignment
-
 
 ## Overview
 This Java backend application functions as a comprehensive ecommerce platform, incorporating essential features such as user management, advertisements, user details, roles, and authentication. It includes robust functionalities like login, register, and password hashing to enhance security.
